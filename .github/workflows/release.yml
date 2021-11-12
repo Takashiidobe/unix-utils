@@ -100,6 +100,9 @@ jobs:
     - name: strip binaries
       run: |
         STRIP=${{ env.STRIP }} ./bin/strip
+    - name: Install shellspec
+      run: |
+        curl -fsSL https://git.io/shellspec | sh -s -- --yes
     - name: run tests
       run: |
         make test
