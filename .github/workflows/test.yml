@@ -67,6 +67,7 @@ jobs:
         make CC="${{ env.CC }}"
     - name: Install shellspec
       run: |
+        brew tap shellspec/shellspec
         brew install shellspec
     - name: run tests
       run: |
