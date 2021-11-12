@@ -7,6 +7,10 @@
 
 #include "../lib/_init.h"
 
+#ifndef NI_MAXHOST
+#define NI_MAXHOST 1025
+#endif
+
 static const char *help = "dig - DNS lookup utility\n"
                           "dig is used to query DNS servers for IP addresses";
 

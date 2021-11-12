@@ -1,4 +1,4 @@
-CFLAGS = -std=c99
+CFLAGS = -std=c99 -D_POSIX_C_SOURCE=200809L -g -O0
 RELEASE_FLAGS = -O3
 BUILD_DIR = build
 RELEASE_DIR = release 
