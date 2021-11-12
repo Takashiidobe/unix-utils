@@ -1,7 +1,7 @@
 #include <errno.h>
 #include <stdio.h>
 
-#ifdef __LINUX__
+#ifdef __linux__
 #include <linux/unistd.h>
 #include <linux/kernel.h>
 #include <sys/sysinfo.h>
