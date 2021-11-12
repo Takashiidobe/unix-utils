@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+STRIP="${STRIP:-strip}"
+
+for i in $(ls build); do
+ $STRIP build/$i
+done
