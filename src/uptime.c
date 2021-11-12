@@ -1,5 +1,6 @@
 #include <errno.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #ifdef __linux__
 #include <linux/unistd.h>
@@ -20,7 +21,6 @@ long get_uptime()
 #define _DARWIN_C_SOURCE
 #include <sys/sysctl.h>
 #include <time.h>
-#include <stdlib.h>
 
 long get_uptime() {
   struct timeval boottime;
