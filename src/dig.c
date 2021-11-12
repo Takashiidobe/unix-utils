@@ -8,7 +8,7 @@
 #include "../lib/_init.h"
 
 static const char *help = "dig - DNS lookup utility\n"
-                          "dig is used to query DNS servers for lookups";
+                          "dig is used to query DNS servers for IP addresses";
 
 static const char *version = "dig (libc) 0.0.1";
 
