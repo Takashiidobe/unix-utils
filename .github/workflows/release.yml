@@ -9,6 +9,7 @@ jobs:
   linux_release:
     runs-on: ubuntu-20.04
     strategy:
+      fail-fast: false
       matrix:
         target:
           [
@@ -114,6 +115,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   mac_release:
     strategy:
+      fail-fast: false
       matrix:
         job:
           - { target: aarch64-apple-darwin, os: macos-11 }
