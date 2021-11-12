@@ -29,9 +29,9 @@ int main(int argc, char *argv[]) {
   struct passwd *pw = (uid == errno ? NULL : getpwuid(uid));
   if (!pw) {
     printf("Cannot find name for user ID %u\n", uid);
-    return EXIT_FAILURE;
+		exit(1);
   }
   puts(pw->pw_name);
 
-  return EXIT_SUCCESS;
+  exit(0);
 }

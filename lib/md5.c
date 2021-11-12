@@ -22,14 +22,13 @@ static const uint32_t k[] = {
     0xffeff47d, 0x85845dd1, 0x6fa87e4f, 0xfe2ce6e0, 0xa3014314, 0x4e0811a1,
     0xf7537e82, 0xbd3af235, 0x2ad7d2bb, 0xeb86d391};
 
-MD5Result *md5(uint8_t *initial_msg, size_t initial_len) {
-  MD5Result *res = malloc(sizeof(MD5Result));
+void md5(uint8_t *initial_msg, size_t initial_len, MD5Result* out) {
   uint8_t *msg = NULL;
 
-  res->h0 = 0x67452301;
-  res->h1 = 0xefcdab89;
-  res->h2 = 0x98badcfe;
-  res->h3 = 0x10325476;
+  out->h0 = 0x67452301;
+  out->h1 = 0xefcdab89;
+  out->h2 = 0x98badcfe;
+  out->h3 = 0x10325476;
 
   // Pre-processing: adding a single 1 bit
   // append "1" bit to message
@@ -57,10 +56,10 @@ MD5Result *md5(uint8_t *initial_msg, size_t initial_len) {
     uint32_t *w = (uint32_t *)(msg + offset);
 
     // Initialize hash value for this chunk:
-    uint32_t a = res->h0;
-    uint32_t b = res->h1;
-    uint32_t c = res->h2;
-    uint32_t d = res->h3;
+    uint32_t a = out->h0;
+    uint32_t b = out->h1;
+    uint32_t c = out->h2;
+    uint32_t d = out->h3;
 
     // Main loop:
     for (uint32_t i = 0; i < 64; i++) {
@@ -89,16 +88,14 @@ MD5Result *md5(uint8_t *initial_msg, size_t initial_len) {
 
     // Add this chunk's hash to result so far:
 
-    res->h0 += a;
-    res->h1 += b;
-    res->h2 += c;
-    res->h3 += d;
+    out->h0 += a;
+    out->h1 += b;
+    out->h2 += c;
+    out->h3 += d;
   }
 
   // cleanup
   free(msg);
-
-  return res;
 }
 
 void md5_print(const MD5Result *md5_hash) {

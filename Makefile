@@ -1,5 +1,5 @@
 CFLAGS = -std=c99 -D_POSIX_C_SOURCE=200809L -g -O0
-RELEASE_FLAGS = -O3
+RELEASE_FLAGS = -O2
 BUILD_DIR = build
 RELEASE_DIR = release 
 SRC_DIR = src
@@ -27,7 +27,7 @@ release: $(RELEASE_PROGS)
 
 release/%: $(SRC_DIR)/%.c $(LIBS)
 	mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) $(LIBS) $(RELEASE_FLAGS) $< -o $@
+	$(CC) $(CFLAGS) $(LIBS) $(RELEASE_FLAGS) $< -o $@$(VERSION)$(SUFFIX)
 
 test:
 	shellspec
