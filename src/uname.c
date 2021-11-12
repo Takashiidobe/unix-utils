@@ -25,7 +25,7 @@ enum UNAME_OPTS {
 };
 
 int main(int argc, char *argv[]) {
-  if (_init((init_ops){.argc = argc,
+  if (util_setup((init_ops){.argc = argc,
                        .argv = argv,
                        .help = help,
                        .version = version,

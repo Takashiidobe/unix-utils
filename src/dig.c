@@ -16,7 +16,7 @@ int main(int argc, char *argv[]) {
   struct addrinfo hints, *res, *res0;
   char host[NI_MAXHOST];
 
-  if (_init((init_ops){.argc = argc,
+  if (util_setup((init_ops){.argc = argc,
                        .argv = argv,
                        .help = help,
                        .version = version,

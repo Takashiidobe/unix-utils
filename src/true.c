@@ -13,7 +13,7 @@ static const char *help = "Usage: true [ignored command line arguments]\n"
 static const char *version = "true (libc) 0.0.1";
 
 int main(int argc, char *argv[]) {
-  if (_init((init_ops){
+  if (util_setup((init_ops){
           .argc = argc, .argv = argv, .help = help, .version = version}) == 0)
     return 0;
 

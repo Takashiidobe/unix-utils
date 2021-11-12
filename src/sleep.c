@@ -11,7 +11,7 @@ static const char *help = "Usage: sleep OPTION\n"
 static const char *version = "sleep (libc) 0.0.1";
 
 int main(int argc, char *argv[]) {
-  if (_init((init_ops){.argc = argc,
+  if (util_setup((init_ops){.argc = argc,
                        .argv = argv,
                        .help = help,
                        .version = version,

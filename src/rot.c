@@ -35,7 +35,7 @@ static struct option long_options[] = {{"rotate", optional_argument, 0, 'r'},
                                        {0, 0, 0, 0}};
 
 int main(int argc, char *argv[]) {
-  if (_init((init_ops){
+  if (util_setup((init_ops){
           .argc = argc, .argv = argv, .help = help, .version = version}) == 0)
     return 0;
 

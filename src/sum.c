@@ -37,7 +37,7 @@ void bsd_sum(char c, uint16_t *checksum, size_t *total_bytes) {
 }
 
 int main(int argc, char *argv[]) {
-  if (_init((init_ops){
+  if (util_setup((init_ops){
           .argc = argc, .argv = argv, .help = help, .version = version}) == 0)
     return 0;
 

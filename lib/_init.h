@@ -16,6 +16,6 @@ typedef struct init_ops {
   int do_not_use_long_version_flag;
 } init_ops;
 
-extern int _init(init_ops ops);
+int util_setup(init_ops ops);
 
 #endif

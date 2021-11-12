@@ -15,7 +15,7 @@ static const char *version = "cat (libc) 0.0.1";
 size_t min(size_t a, size_t b) { return a > b ? b : a; }
 
 int main(int argc, char *argv[]) {
-  if (_init((init_ops){
+  if (util_setup((init_ops){
           .argc = argc, .argv = argv, .help = help, .version = version}) == 0)
     return 0;
 

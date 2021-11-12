@@ -1,6 +1,6 @@
 #include "_init.h"
 
-int _init(init_ops ops) {
+int util_setup(init_ops ops) {
   if (ops.argc < 2 && ops.print_help_by_default) {
     printf("%s\n", ops.help);
     goto success;
