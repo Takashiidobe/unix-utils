@@ -1,4 +1,4 @@
-CFLAGS = -Wall -Werror
+CFLAGS = -std=c99
 RELEASE_FLAGS = -O3
 BUILD_DIR = build
 RELEASE_DIR = release 
