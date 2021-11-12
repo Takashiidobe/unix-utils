@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
 for i in $(ls build/); do
-	file $i
-	ldd $i || true
+	file build/$i
+	ldd build/$i || true
 done
