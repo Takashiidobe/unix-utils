@@ -24,9 +24,6 @@ int main(int argc, char *argv[]) {
     exit(EXIT_FAILURE);
   }
 
-  printf("ID of containing device:  [%jx,%jx]\n", (uintmax_t)major(sb.st_dev),
-         (uintmax_t)minor(sb.st_dev));
-
   printf("File type:                ");
 
   switch (sb.st_mode & S_IFMT) {
@@ -71,5 +68,4 @@ int main(int argc, char *argv[]) {
   printf("Last status change:       %s", ctime(&sb.st_ctime));
   printf("Last file access:         %s", ctime(&sb.st_atime));
   printf("Last file modification:   %s", ctime(&sb.st_mtime));
-  printf("Birth:   %s", ctime(&sb.st_birthtimespec.tv_sec));
 }
