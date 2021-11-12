@@ -3,7 +3,9 @@ name: Release
 on:
   push:
     paths:
+      - ".github/workflows/*.yml"
       - "**/*.c"
+      - "**/*.h"
 
 jobs:
   build:
