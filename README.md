@@ -4,8 +4,7 @@ Some tiny unix utilities.
 
 ## Scripts
 
-`make` builds utilities in debug mode.
-`make release` builds utilities in release mode.
+`make` builds all utilities. 
 
 ## Utilities
 

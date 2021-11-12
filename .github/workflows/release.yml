@@ -2,13 +2,11 @@ name: Release
 
 on:
   push:
-    paths:
-      - ".github/workflows/*.yml"
-      - "**/*.c"
-      - "**/*.h"
+    tags:
+      - 'v.*'
 
 jobs:
-  build:
+  linux_release:
     runs-on: ubuntu-20.04
     strategy:
       matrix:
@@ -91,11 +89,6 @@ jobs:
     - name: Echo gcc version
       run: |
         ${{ matrix.target }}-gcc --verbose
-    - name: build binaries for testing
-      if: startsWith(github.ref, 'refs/tags/') != true
-      run: |
-        make CC="${{ env.CC }}" \
-          CFLAGS="${{ env.CFLAGS }}" \
     - name: build binaries for release
       if: startsWith(github.ref, 'refs/tags/')
       run: |
@@ -106,19 +99,10 @@ jobs:
     - name: strip binaries
       run: |
         STRIP=${{ env.STRIP }} ./bin/strip
-    - name: Install shellspec
-      if: ${{ matrix.target }} == "x86_64-linux-musl"
-      run: |
-        curl -fsSL https://git.io/shellspec | sh -s -- --yes
-    - name: run tests
-      if: ${{ matrix.target }} == "x86_64-linux-musl"
-      run: |
-        make test || true
     - name: Check file and ldd output
       run: |
         ./bin/file-info
     - name: zip files
-      if: startsWith(github.ref, 'refs/tags/')
       run: |
         tar czf "unix-utils-${{ github.ref_name }}-${{ matrix.target }}.tar.gz" release
     - name: Publish archives and packages
@@ -128,3 +112,36 @@ jobs:
         files: "unix-utils-${{ github.ref_name }}-${{ matrix.target }}.tar.gz"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  mac_release:
+    strategy:
+      matrix:
+        job:
+          - { target: aarch64-apple-darwin, os: macos-11 }
+          - { target: x86_64-apple-darwin, os: macos-10.15 }
+    runs-on: ${{ matrix.job.os }}
+    env:
+      CC: gcc
+      STRIP: strip
+    steps:
+    - uses: actions/checkout@v2
+        gcc --verbose
+    - name: build binaries for release
+      run: |
+        make release CC="${{ env.CC }}" \
+          SUFFIX="-${{ matrix.job.target }}" \
+          VERSION="-${{ github.ref_name }}"
+    - name: strip binaries
+      run: |
+        STRIP=${{ env.STRIP }} ./bin/strip
+    - name: zip files
+      if: startsWith(github.ref, 'refs/tags/')
+      run: |
+        tar czf "unix-utils-${{ github.ref_name }}-${{ matrix.job.target }}.tar.gz" release
+    - name: Publish archives and packages
+      uses: softprops/action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        files: "unix-utils-${{ github.ref_name }}-${{ matrix.job.target }}.tar.gz"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
