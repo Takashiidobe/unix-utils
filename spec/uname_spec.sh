@@ -1,4 +1,8 @@
 Describe 'uname' 
+	Mock uname
+		echo Linux
+	End
+
   Describe 'uname without arguments'
     uname() { build/uname; }
     uname_s() { build/uname -s; }
@@ -6,6 +10,7 @@ Describe 'uname'
     uname_all() { build/uname --all; }
     uname_n() { build/uname -n; }
     uname_nodename() { build/uname --nodename; }
+
 
     It 'returns the OS name when called with no arguments'
       When call uname 
@@ -29,7 +34,7 @@ Describe 'uname'
 
     It 'returns the correct nodename when called with -n'
       When call uname_n
-      The output should eq "Takashis-MacBook-Pro.local "
+      The output should eq "hi "
     End
 
     It 'returns the correct nodename when called with --nodename'
