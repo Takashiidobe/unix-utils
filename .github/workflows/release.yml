@@ -3,7 +3,7 @@ name: Release
 on:
   push:
     tags:
-      - 'v.*'
+      - '*'
 
 jobs:
   linux_release:
@@ -93,7 +93,7 @@ jobs:
     - name: build binaries for release
       if: startsWith(github.ref, 'refs/tags/')
       run: |
-        make release CC="${{ env.CC }}" \
+        make CC="${{ env.CC }}" \
           CFLAGS="${{ env.CFLAGS }}" \
           SUFFIX="-${{ matrix.target }}" \
           VERSION="-${{ github.ref_name }}"
@@ -105,7 +105,7 @@ jobs:
         ./bin/file-info
     - name: zip files
       run: |
-        tar czf "unix-utils-${{ github.ref_name }}-${{ matrix.target }}.tar.gz" release
+        tar czf "unix-utils-${{ github.ref_name }}-${{ matrix.target }}.tar.gz" build
     - name: Publish archives and packages
       uses: softprops/action-gh-release@v1
       if: startsWith(github.ref, 'refs/tags/')
@@ -126,10 +126,12 @@ jobs:
       STRIP: strip
     steps:
     - uses: actions/checkout@v2
+    - name: Echo gcc version
+      run: |
         gcc --verbose
     - name: build binaries for release
       run: |
-        make release CC="${{ env.CC }}" \
+        make CC="${{ env.CC }}" \
           SUFFIX="-${{ matrix.job.target }}" \
           VERSION="-${{ github.ref_name }}"
     - name: strip binaries
@@ -138,7 +140,7 @@ jobs:
     - name: zip files
       if: startsWith(github.ref, 'refs/tags/')
       run: |
-        tar czf "unix-utils-${{ github.ref_name }}-${{ matrix.job.target }}.tar.gz" release
+        tar czf "unix-utils-${{ github.ref_name }}-${{ matrix.job.target }}.tar.gz" build
     - name: Publish archives and packages
       uses: softprops/action-gh-release@v1
       if: startsWith(github.ref, 'refs/tags/')
