@@ -23,7 +23,7 @@ Legend:
 | dircolors       | dirname     | du             | echo          | env      | expand        |
 | expr            | factor      | false \+\+\+\+ | fmt           | fold     | groups        |
 | head \+\+       | hostid      | hostname \+\+  | id            | install  | join          |
-| kill            | link        | ln             | logname       | ls \+\+       | md5sum \+\+   |
+| kill            | link        | ln             | logname       | ls \+\+  | md5sum \+\+   |
 | mkdir           | mkfifo      | mknod          | mktemp        | mv       | nice          |
 | nl              | nohup       | nproc          | numfmt        | od       | paste         |
 | pathchk         | pinky       | pr             | printenv \+\+ | printf   | ptx           |
