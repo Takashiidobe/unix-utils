@@ -13,7 +13,7 @@ VERSION_TEXT="head (libc) 0.0.1"
 Describe 'head' 
   head() { build/head; }
   head_file() { build/head spec/test_files/head_file.txt; }
-  head_2_files() { build/head spec/test_files/head_file.txt spec/test_files/head_file2.txt; }
+  head_2_files() { build/head spec/test_files/head/head_file.txt spec/test_files/head/head_file2.txt; }
   head_h() { build/head -h; }
   head_help() { build/head --help; }
   head_v() { build/head -v; }
