@@ -48,6 +48,15 @@ S_IXOTH (00001)
        execute/search by others
 */
 
+/*
+ *
+ * Using 755 you are specifying:
+
+    7 --> u=rwx (4+2+1 for owner)
+    5 --> g=rx (4+1 for group) (group can read and execute)
+    5 --> o=rx (4+1 for others) (others can read and execute)
+*/
+
 #define MAX_ARGS 127
 
 enum Permissions {
@@ -67,9 +76,9 @@ enum Users {
 };
 
 struct Action {
-  unsigned users ;
-  unsigned operations ;
-  unsigned permissions ;
+  unsigned users;
+  unsigned operations;
+  unsigned permissions;
 };
 
 void add_permission(int* mode, int permission) {
@@ -133,6 +142,10 @@ int main(int argc, char* argv[]) {
 		action.users = U_ALL;
 	}
 
+	// read means read-only.
+	// write implies read.
+	// execute implies read.
+
 	// otherwise, apply to u g or o.
 	if (action.operations & O_ADD) {
 		if (action.users & U_FILE_OWNER) {
@@ -146,38 +159,120 @@ int main(int argc, char* argv[]) {
 		}
 		if (action.permissions & P_WRITE) {
 			if (action.users & U_FILE_OWNER) {
+				add_permission(&mode, S_IRUSR);
 				add_permission(&mode, S_IWUSR);
 			}
 			if (action.users & U_GROUP_MEMBER) {
+				add_permission(&mode, S_IRGRP);
 				add_permission(&mode, S_IWGRP);
 			}
 			if (action.users & U_OTHERS) {
+				add_permission(&mode, S_IROTH);
 				add_permission(&mode, S_IWOTH);
 			}
 		}
 		if (action.permissions & P_EXECUTE) {
 			if (action.users & U_FILE_OWNER) {
 				add_permission(&mode, S_IRUSR);
+				add_permission(&mode, S_IWUSR);
+				add_permission(&mode, S_IRWXU);
 			}
-			if (action.users & U_FILE_OWNER) {
-				add_permission(&mode, S_IXGRP);
+			if (action.users & U_GROUP_MEMBER) {
+				add_permission(&mode, S_IRGRP);
+				add_permission(&mode, S_IRWXG);
 			}
-			if (action.users & U_FILE_OWNER) {
-				add_permission(&mode, S_IXOTH);
+			if (action.users & U_OTHERS) {
+				add_permission(&mode, S_IROTH);
+				add_permission(&mode, S_IRWXO);
 			}
 		}
 	} else if (action.operations & O_SUB) {
-		// remove permissions
+		if (action.users & U_FILE_OWNER) {
+			remove_permission(&mode, S_IRUSR);
+		}
+		if (action.users & U_GROUP_MEMBER) {
+			remove_permission(&mode, S_IRGRP);
+		}
+		if (action.users & U_OTHERS) {
+			remove_permission(&mode, S_IROTH);
+		}
+		if (action.permissions & P_WRITE) {
+			if (action.users & U_FILE_OWNER) {
+				remove_permission(&mode, S_IRUSR);
+				remove_permission(&mode, S_IWUSR);
+			}
+			if (action.users & U_GROUP_MEMBER) {
+				remove_permission(&mode, S_IRGRP);
+				remove_permission(&mode, S_IWGRP);
+			}
+			if (action.users & U_OTHERS) {
+				remove_permission(&mode, S_IROTH);
+				remove_permission(&mode, S_IWOTH);
+			}
+		}
+		if (action.permissions & P_EXECUTE) {
+			if (action.users & U_FILE_OWNER) {
+				remove_permission(&mode, S_IRUSR);
+				remove_permission(&mode, S_IWUSR);
+				remove_permission(&mode, S_IRWXU);
+			}
+			if (action.users & U_GROUP_MEMBER) {
+				remove_permission(&mode, S_IRGRP);
+				remove_permission(&mode, S_IWGRP);
+				remove_permission(&mode, S_IRWXG);
+			}
+			if (action.users & U_OTHERS) {
+				remove_permission(&mode, S_IROTH);
+				remove_permission(&mode, S_IWOTH);
+				remove_permission(&mode, S_IRWXO);
+			}
+		}
 	} else if (action.operations & O_EQUAL) {
-
+		if (action.users & U_FILE_OWNER) {
+			add_permission(&mode, S_IRUSR);
+		}
+		if (action.users & U_GROUP_MEMBER) {
+			add_permission(&mode, S_IRGRP);
+		}
+		if (action.users & U_OTHERS) {
+			add_permission(&mode, S_IROTH);
+		}
+		if (action.permissions & P_WRITE) {
+			if (action.users & U_FILE_OWNER) {
+				add_permission(&mode, S_IRUSR);
+				add_permission(&mode, S_IWUSR);
+			}
+			if (action.users & U_GROUP_MEMBER) {
+				add_permission(&mode, S_IRGRP);
+				add_permission(&mode, S_IWGRP);
+			}
+			if (action.users & U_OTHERS) {
+				add_permission(&mode, S_IROTH);
+				add_permission(&mode, S_IWOTH);
+			}
+		}
+		if (action.permissions & P_EXECUTE) {
+			if (action.users & U_FILE_OWNER) {
+				add_permission(&mode, S_IRUSR);
+				add_permission(&mode, S_IWUSR);
+				add_permission(&mode, S_IRWXU);
+			}
+			if (action.users & U_GROUP_MEMBER) {
+				add_permission(&mode, S_IRGRP);
+				add_permission(&mode, S_IWGRP);
+				add_permission(&mode, S_IRWXG);
+			}
+			if (action.users & U_OTHERS) {
+				add_permission(&mode, S_IROTH);
+				add_permission(&mode, S_IWOTH);
+				add_permission(&mode, S_IRWXO);
+			}
+		}
 	}
 
 apply:
   for (unsigned i = 2; i < argc && i < MAX_ARGS; i++) {
-		// get the current mode of the file then xor it for mode
-		int prev_permissions = 0;
-		printf("prev permissions: %d\n", prev_permissions);
-    // chmod(argv[i], mode);
+    chmod(argv[i], mode);
   }
   exit(0);
 }
