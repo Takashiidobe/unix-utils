@@ -19,21 +19,17 @@ int main(int argc, char *argv[]) {
           .argc = argc, .argv = argv, .help = help, .version = version}) == 0)
     return 0;
 
-  if (argc < 2) {
-    char *line = NULL;
-    size_t len = 0;
-    ssize_t read;
+  char *line = NULL;
+  size_t len = 0;
 
-    if (argc < 2) {
-      while ((read = getline(&line, &len, stdin)) != -1) {
-        printf("%s", line);
-      }
-      free(line);
-      exit(0);
+  if (argc == 1) {
+    while (getline(&line, &len, stdin) != -1) {
+      printf("%s", line);
     }
+    free(line);
+    exit(0);
   }
 
-  char c;
   size_t file_count = min(argc - 1, FOPEN_MAX);
   FILE *files[file_count];
 
@@ -51,8 +47,8 @@ int main(int argc, char *argv[]) {
   }
 
   for (size_t i = 0; i < file_count; i++) {
-    while ((c = getc(files[i])) != EOF) {
-      putchar(c);
+    while (getline(&line, &len, files[i]) != -1) {
+      printf("%s", line);
     }
   }
 

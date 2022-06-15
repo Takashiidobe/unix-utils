@@ -12,7 +12,7 @@ PROGS = $(patsubst $(SRC_DIR)/%.c,$(BUILD_DIR)/%,$(SRCS))
 all: $(PROGS)
 
 build/%: $(SRC_DIR)/%.c $(LIBS)
-	mkdir -p $(dir $@) 
+	mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) $(RELEASE_FLAGS) $(LIBS) $< -o $@$(VERSION)$(SUFFIX)
 
 clean:
@@ -23,7 +23,7 @@ test:
 
 define HELP_TEXT
 make                  build all utils
-make test             run tests for utils 
+make test             run tests for utils
 endef
 
 export HELP_TEXT
