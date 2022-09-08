@@ -17,4 +17,3 @@ int main(int argc, char* argv[]) {
 	}
 	printf("%lu %s\n", file_size, argv[1]);
 }
-

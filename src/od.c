@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 
 int main(int argc, char** argv) {
@@ -17,7 +16,7 @@ int main(int argc, char** argv) {
 		if (j > 0 && j % 2 == 0 && j % 16 != 0) {
 			printf(" ");
 		}
-    printf("%02x", c & 255);
+    printf("%o", c & 255);
 		i++;
 		j++;
 		k++;

@@ -16,8 +16,8 @@ int main(int argc, char* argv[]) {
 
   while ((c1 = fgetc(f1)) != EOF && (c2 = fgetc(f2)) != EOF) {
 		if (c1 != c2) {
-			printf("%s %s differ: char %d, line %d", argv[1], argv[2], char_number, line_number);
-			return 0;
+			printf("%s %s differ: char %d, line %d\n", argv[1], argv[2], char_number, line_number);
+			return 1;
 		}
 		char_number++;
 		if (c1 == '\n' && c2 == '\n') {
@@ -25,4 +25,6 @@ int main(int argc, char* argv[]) {
 			char_number = 1;
 		}
   }
+
+  return 0;
 }

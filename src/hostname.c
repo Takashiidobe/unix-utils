@@ -3,6 +3,8 @@
 
 #include "../lib/_init.h"
 
+#define BUF_LEN 1024
+
 static const char *help = "Usage: hostname [ignored command line arguments]\n"
                           "or: true OPTION\n"
                           "Prints name of computer.\n"
@@ -17,9 +19,8 @@ int main(int argc, char *argv[]) {
           .argc = argc, .argv = argv, .help = help, .version = version}) == 0)
     return 0;
 
-  char name[1024];
-  size_t len = 1024;
-  int res = gethostname(name, len);
+  char name[BUF_LEN];
+  int res = gethostname(name, BUF_LEN);
   if (res == 0)
     printf("%s\n", name);
   else
